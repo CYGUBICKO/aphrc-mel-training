@@ -1,0 +1,229 @@
+---
+title: "AI/ML for Monitoring, Evaluation & Learning (MEL)"
+subtitle: \texttt{(Quartely Engagement)}
+output: 
+  beamer_presentation:
+    # slide_level: 2
+    # toc: true
+author: 
+  - Steve Cygu
+institute:
+   - Data Science Program
+   - APHRC, Nairobi
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+theme: "Madrid" #Berlin; AnnArbor; CambridgeUS; Berkeley; Copenhagen; Madrid, 
+fonttheme: "serif" # serif; structurebold
+
+# colortheme: "beaver" #dolphin; beaver; seahorse; orchid; lily;
+header-includes:
+   - \AtBeginDocument{\title[AI/ML for MEL]{AI/ML for Monitoring, Evaluation \& Learning (MEL)}}
+   - \AtBeginDocument{\author[Steve Cygu]{{\bf Facilitated}\\ by\\[2mm]Steve Cygu, PhD}}
+   - \AtBeginDocument{\institute[DSP, APHRC]{MEL CoP Quartely Engagement}}
+   - \titlegraphic{\includegraphics[width=3.5cm]{aphrc_logo.png}}
+   - \usepackage{xcolor}
+   - \definecolor{APHRCColor}{RGB}{123,193,72}
+   - \setbeamercolor{frametitle}{fg=white}
+   - \setbeamercolor{structure}{fg=APHRCColor}
+   - \usepackage[english]{babel}
+   - \usepackage{times}
+   - \usepackage[T1]{fontenc}
+   - \usepackage{graphicx}
+   - \usepackage{lscape}
+   - \usepackage{enumitem}
+   - \usepackage{fancyvrb}
+   - \usepackage{verbatim}
+   - \usepackage{multicol}
+---
+
+\let\proglang=\textsf
+\let\pkg=\textbf 
+\let\code=\texttt
+
+
+\newcommand{\bR}{ \mbox{\boldmath $R$} }
+\newcommand{\bb}{ \mbox{\boldmath $b$} }
+\newcommand{\bSigma}{ \mbox{\boldmath $\Sigma$} }
+\newcommand{\bbeta}{ \mbox{\boldmath $\beta$} }
+\newcommand{\bzero}{ \mbox{\boldmath $0$} }
+\newcommand{\bone}{ \mbox{\boldmath $1$} }
+
+## Outline
+\begin{multicols}{2}
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\setlength\itemsep{0.4em}
+\item Learning objectives
+\item Agenda
+\item Basic concepts
+\item AI for MEL
+\item Introducing gemini.R package
+\item Practical sessions
+\item Takeways
+\end{itemize}
+\end{multicols}
+
+## Objectives
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Learn how AI (LLMs, NLP) can streamline MEL tasks (report summaries, trend detection, insights) 
+\begin{itemize}[label=\textcolor{green}{$\diamond$}]
+\item Using \proglang{R} and the \pkg{gemini.R} package]
+\end{itemize}
+\item Focus on conceptual understanding and practical examples
+\end{itemize}
+
+
+## Agenda
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Definitions of AI, Machine Learning (ML), Natural Language Processing (NLP), and Large Language Models (LLMs)
+\item How AI/ML applies to MEL tasks (summaries, trend analysis, indicator extraction)
+\item Introducing \proglang{R} and the \pkg{gemini.R} package, and conceptual workflows using them
+\item Demonstrations using APHRC-style reports to show AI’s impact on MEL tasks.
+\item Address common questions about AI in MEL, best practices, and resources.
+\end{itemize}
+
+
+# Basic concepts
+
+## What is Artificial Intelligence (AI)?
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item AI is the simulation of human intelligence by machines, enabling them to learn, reason, and self-correct
+\item Involves tasks like learning from data, making decisions, and improving over time.
+\item \textbf{Examples:} Virtual assistants, image recognition, and LLMs (chatbots like ChatGPT) are all AI applications
+\item \textbf{In MEL:} AI provides the broad framework for automating cognitive tasks in MEL, such as analyzing data and generating insights
+\end{itemize}
+
+
+## What is Machine Learning (ML)?
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item ML is a subset of AI that focuses on building systems that learn—and improve—as they consume more data
+\item Instead of explicit programming, ML models use algorithms to identify patterns in data and make predictions
+\item \textbf{Examples:} Spam filters, recommendation engines, and predictive models are all powered by ML
+\item \textbf{In MEL:} ML can be used for tasks like predictive  \textbf{trend analysis} or  \textbf{anomaly detection} in monitoring data
+\end{itemize}
+
+
+## What is Deep Learning?
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Deep Learning is a specialized subset of ML that uses \textbf{multi-layered neural networks} (inspired by the brain) to learn complex patterns
+\item Deep learning models excel at processing unstructured data (text, images, audio) and power modern AI like LLMs and image recognition
+\item \textbf{Examples:} Convolutional Neural Networks (CNNs) for images, Recurrent Neural Networks (RNNs)/Transformers for text (LLMs are Transformer-based deep learning models)
+\item \textbf{In MEL:} Deep learning enables advanced NLP techniques for understanding and generating human language from reports and feedback
+\end{itemize}
+
+
+## What is Natural Language Processing (NLP)?
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item NLP enables computers to interpret, analyze, and generate human language
+\item It is a field of AI that combines linguistics and ML to process text and speech (e.g., understanding reports, transcriptions)
+\item \textbf{Examples:} Sentiment analysis, translation, keyword extraction, summarization, and chatbots
+\item \textbf{In MEL:} NLP can automate analysis of qualitative data, such as categorizing survey responses or summarizing narrative reports
+\end{itemize}
+
+
+
+## What are Large Language Models (LLMs)? 
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item LLMs are machine learning models trained on massive text datasets to understand and generate human-like text
+\item LLMs (like Google’s Gemini, OpenAI’s GPT) use deep learning (transformer networks) to predict and generate text based on input prompts
+\item They can summarize text, answer questions, translate languages, and more by analyzing context and patterns in huge corpora
+\item \textbf{Examples:} ChatGPT, Google Bard/Gemini, Meta’s Llama. These models can be accessed via APIs (like \pkg{gemini.R} in \proglang{R}) for automated text tasks
+\end{itemize}
+
+
+## LLMs vs NLP Models
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item LLMs are broad and generate fluent text; NLP models are often task-specific (e.g., sentiment analysis, translation)
+\item Both use large datasets and ML to interpret language. LLMs are a type of generative AI; NLP encompasses both generative and analytical language tools
+\item An LLM can generate a report summary on its own, while a traditional NLP model might only score sentiment or extract entities
+\item We can use LLMs (via \pkg{gemini.R}) for a wide range of MEL tasks (summarization, Q\&A), whereas specific NLP tools (built on ML) can handle targeted tasks like coding feedback
+\end{itemize}
+
+
+# AI for MEL
+
+## Why AI/ML for MEL?
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item AI automates manual analysis and reporting tasks
+\item Real-time data processing allows quicker insights and decision-making (e.g., generating a report summary instantly)
+\item Machine learning reduces human error and improves consistency in data handling
+\item AI systems can process vast amounts of data (multiple reports, years of trends)
+\end{itemize}
+
+## AI/ML Use Cases in MEL
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Automated reporting - Generate executive summaries of quarterly reports automatically
+\item Trend analysis - Identify changes in key indicators over time (e.g., rising incidence, budget variances)
+\item Sentiment analysis - Categorize and analyze textual feedback or stakeholder comments for sentiment and themes
+\item Predictive - Forecast project outcomes or risks (e.g., anticipating resource needs)
+\item Data validation - Use anomaly detection to flag data entry errors
+\end{itemize}
+
+
+## Examples of Use Cases Prompts
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Summarize reports - \textit{“Summarize the key findings and trends in this quarter’s report”}
+\item Extracting indicators - \textit{“List the key indicators and their current values from this report.”}
+\item Trend analysis - \textit{“Compare the trends in indicator X between Q1 and Q4”}
+\end{itemize}
+
+
+## Best Practice -  Prompt Design
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Be specific - Clear instructions yield better results (e.g., “Summarize the key findings” vs “Tell me about this report”)
+\item Provide context - Include necessary details in the prompt (e.g., time frame, project name)
+\item Use Examples - If possible, give one example in your prompt (e.g., “Like this example: …”)
+\item Check Output format - Specify desired format (bullet points, summary paragraph, list)
+\item Iterate - Try multiple prompt phrasings to see which yields the best answer.
+\end{itemize}
+
+
+# gemini.R Package
+
+## Introducing gemini.R
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item An R package that interfaces with Google’s Gemini LLM API
+\item Enables R users to leverage a powerful LLM for tasks like text generation, summarization, Q\&A, directly within R
+\item Simple functions (e.g., \code{gemini("prompt")}) to send text prompts to Gemini and receive responses.
+\end{itemize}
+
+
+## Capabilities
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Text generation
+\item Image/Audio analysis
+\item Customization via different models
+\item Integrates with various data pipelines
+\item Well documented
+\end{itemize}
+
+
+## Installation
+
+\begin{itemize}[label=\textcolor{blue}{$\diamond$}]
+\item Practical session
+\end{itemize}
+
+
+
+
+
+
+
+
+## {}
+\begin{center}
+Thank You!!\\[8mm]
+Questions?????
+\end{center}
